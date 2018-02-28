@@ -32,6 +32,10 @@ window.addEventListener("DOMContentLoaded", function() {
     // 对拍照按钮的事件监听 
     document.getElementById("snap").addEventListener("click", function() { 
         // 画到画布上 
-        context.drawImage(video, 0, 0, 200, 200); 
+        var img = document.getElementById("selfpic");
+        context.fillStyle = ctx.createPattern(img, "repeat");
+        context.fillRect(0, 0 , 200, 200);
+        context.globalCompositeOperation = "destination-over";
+        context.drawImage(video, 0, 0, 640, 480); 
     }); 
 }, false); 

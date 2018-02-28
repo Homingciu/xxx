@@ -27,16 +27,16 @@
             <button class="finishBtn">完成</button>
             <button class="clearBtn">清除</button>
         </div>
-        <img src="" alt="" class="pic">
+        <img id="selfpic" src="" alt="" class="pic">
     </div>
     
 
     <!-- 拍照 -->
-    <video id="video" width="200" height="200" autoplay></video> 
+    <video id="video" width="640" height="480" autoplay></video> 
     <div>
         <button id="snap">拍照</button> 
     </div>
-    <canvas id="canvas" width="200" height="200"></canvas> 
+    <canvas id="canvas" width="640" height="480"></canvas> 
     
 
 
@@ -57,7 +57,7 @@
             lastY;
 
         ctx.lineWidth = "5px";
-
+        ctx.strokeStyle = "red";
 
         function clickStart(e) {
             e.preventDefault();
@@ -65,7 +65,7 @@
             lastY = e.clientY;
             // drawRound(lastX,lastY);
             oCanvas.onmousemove = mouseMove;
-            oCanvas.onmouseup = clickEnd;            
+            document.onmouseup = clickEnd;            
         }
 
         function mouseMove(e) {
@@ -77,7 +77,7 @@
 
         function clickEnd(e) {
             oCanvas.onmousemove = null;
-            oCanvas.onmouseup = null;
+            document.onmouseup = null;
         }
         // function drawRound(x,y) {
         //     ctx.fillStyle="#FF0000";
