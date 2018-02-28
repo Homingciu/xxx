@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <!-- 地图 -->
+    <div id="geo">
+        <div id="baidu_geo"></div>
+        <div id="google_geo"></div>
+    </div>
+
+    <div>
+        <a class="positionBtn" href="#">
+            <img src="./position.jpg" alt="定位" class="position">
+        </a>
+    </div>
+
+    <!-- 画布 -->
+    <div class="myPic">
+        <canvas id="drawing-board" width="200px" height="200px"></canvas>
+        <div>
+            <button class="finishBtn">完成</button>
+            <button class="clearBtn">清除</button>
+        </div>
+        <img src="" alt="" class="pic">
+    </div>
+    
+
+    <!-- 拍照 -->
+    <video id="video" width="200" height="200" autoplay></video> 
+    <div>
+        <button id="snap">拍照</button> 
+    </div>
+    <canvas id="canvas" width="200" height="200"></canvas> 
+    
+
+
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./position.js"></script>
+    <script src="./photo.js"></script>    
+    <script>
+        //定位
+        var pBtn = document.getElementsByClassName("positionBtn")[0];
+        pBtn.onclick = getLocation;
+
+
+        //画布 
+        var oCanvas = document.getElementById("drawing-board"),
+            ctx = oCanvas.getContext("2d"),
+            lastX,
+            lastY;
+
+        ctx.lineWidth = "5px";
+
+
+        function clickStart(e) {
+            e.preventDefault();
+            lastX = e.clientX;
+            lastY = e.clientY;
+            // drawRound(lastX,lastY);
+            oCanvas.onmousemove = mouseMove;
+            oCanvas.onmouseup = clickEnd;            
+        }
+
+        function mouseMove(e) {
+            e.preventDefault();
+            drawLine(lastX,lastY,e.clientX,e.clientY);
+            lastX = e.clientX;
+            lastY = e.clientY;
+        }
+
+        function clickEnd(e) {
+            oCanvas.onmousemove = null;
+            oCanvas.onmouseup = null;
+        }
+        // function drawRound(x,y) {
+        //     ctx.fillStyle="#FF0000";
+        //     ctx.beginPath();
+        //     ctx.arc(x,y,5,0,Math.PI*2,true);
+        //     ctx.closePath();
+        //     ctx.fill();
+        // }
+
+        function drawLine(startX,startY,endX,endY) {
+            ctx.beginPath();
+            ctx.lineCap="round";
+            ctx.moveTo(startX,startY);
+            ctx.lineTo(endX,endY);
+            ctx.stroke();
+        }
+
+
+        oCanvas.onmousedown = clickStart;
+        
+
+        //画布下的按钮
+        var fBtn = document.getElementsByClassName("finishBtn")[0],
+            pic = document.getElementsByClassName("pic")[0],
+            cBtn = document.getElementsByClassName("clearBtn")[0];
+
+        fBtn.onclick = function () {
+            pic.src = oCanvas.toDataURL();
+        }
+
+        cBtn.onclick = function () {
+            oCanvas.height = oCanvas.height;
+        }
+    </script>
+</body>
+</html>
